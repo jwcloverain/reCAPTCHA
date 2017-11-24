@@ -86,9 +86,6 @@ class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
 		$resp = $recaptcha->verify($_POST['g-recaptcha-response'], $ip);
 
 		if (!$resp->isSuccess()) {
-			// What happens when the CAPTCHA was entered incorrectly
-			// die ("The reCAPTCHA wasn't entered correctly. Go back and try it again." .
-			// 	"(reCAPTCHA said: " . $resp->error . ")");
 			throw new Typecho_Widget_Exception(_t('验证码不正确哦！'));
 		}
 		else {return $comments;}
