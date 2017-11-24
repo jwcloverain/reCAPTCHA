@@ -4,7 +4,9 @@
 #### 使用方法：
 1. 到「[页面][3]」申请一个API key；
 2. 激活该插件，并配置Public Key和Private Key；
-注意：若未配置Public Key和Private Key而先激活该插件，文章页面会报错
+
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注意：若未配置Public Key和Private Key而先激活该插件，文章页面会报错**
+
 3. 在适当地方添加如下代码：
 
 ```
