@@ -8,7 +8,7 @@
  * @link http://geaya.com
  */
 
-require_once('lib/recaptchalib.php');
+require_once('lib/vendor/autoload.php');
 
 class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
 {
@@ -51,45 +51,68 @@ class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
      * @return void
      */
 	public static function config(Typecho_Widget_Helper_Form $form) {
-		$publickeyDescription = _t("To use reCAPTCHA you must get an API key from <a href='https://www.google.com/recaptcha/admin/create'>https://www.google.com/recaptcha/admin/create</a>");
-		$publickey = new Typecho_Widget_Helper_Form_Element_Text('publickey', NULL, '', _t('Public Key:'), $publickeyDescription);
-		$privatekey = new Typecho_Widget_Helper_Form_Element_Text('privatekey', NULL, '', _t('Private Key:'), _t(''));
+		$siteKeyDescription = _t("To use reCAPTCHA you must get an API key from <a href='https://www.google.com/recaptcha/admin/create'>https://www.google.com/recaptcha/admin/create</a>");
+		$siteKey = new Typecho_Widget_Helper_Form_Element_Text('siteKey', NULL, '', _t('Site Key:'), $siteKeyDescription);
+		$secretKey = new Typecho_Widget_Helper_Form_Element_Text('secretKey', NULL, '', _t('Serect Key:'), _t(''));
 		
-		$form->addInput($publickey);
-		$form->addInput($privatekey);
+		$form->addInput($siteKey);
+		$form->addInput($secretKey);
 	}
 	
 	/**
 	 * 展示验证码
 	 */
-	public static function output() {
-
-	 	echo '<script type="text/javascript"> var RecaptchaOptions = { theme : \'blackglass\' }; </script>';
-
-	    $publickey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->publickey;
-		echo recaptcha_get_html($publickey);
-	}
+        public static function output() {
+                $siteKey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->siteKey;
+                if (isset($siteKey)) {
+                        echo '<script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
+                                <div class="g-recaptcha" data-sitekey=' . $siteKey . '></div>';
+                }
+                else { return; }
+        }
   
-	public static function filter($comment, $obj) {
-		$privatekey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->privatekey;
+	public static function filter($comments, $obj) {
+	if (isset($_POST['g-recaptcha-response'])) {
+		$siteKey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->siteKey;
+		$secretKey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->secretKey;
 		$userObj = $obj->widget('Widget_User');
 		
 		if($userObj->hasLogin() && $userObj->pass('administrator', true)) {
-			return $comment;
+			return $comments;
 		}
+	
+		$recaptcha = new \ReCaptcha\ReCaptcha($secretKey);
+    		// static $realip;
+    		// if(isset($_SERVER)){
+        	//	if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])){
+            	//		$realip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+        	//	}else if(isset($_SERVER['HTTP_CLIENT_IP'])){
+            	//		$realip=$_SERVER['HTTP_CLIENT_IP'];
+        	//	}else{
+            	//		$realip=$_SERVER['REMOTE_ADDR'];
+        	//	}
+    		// }else{
+        	//	if(getenv('HTTP_X_FORWARDED_FOR')){
+            	//		$realip=getenv('HTTP_X_FORWARDED_FOR');
+        	//	}else if(getenv('HTTP_CLIENT_IP')){
+            	//		$realip=getenv('HTTP_CLIENT_IP');
+        	//	}else{
+            	//		$realip=getenv('REMOTE_ADDR');
+        	//	}
+    		// }
+		// return $realip;
 		
-		$resp = recaptcha_check_answer($privatekey,
-				$_SERVER["REMOTE_ADDR"],
-				$_POST["recaptcha_challenge_field"],
-				$_POST["recaptcha_response_field"]);
+		$ip = $_SERVER['REMOTE_ADDR'];	
+		$resp = $recaptcha->verify($_POST['g-recaptcha-response'], $realip);
 
-		if (!$resp->is_valid) {
+		if (!$resp->isSuccess()) {
 			// What happens when the CAPTCHA was entered incorrectly
 			// die ("The reCAPTCHA wasn't entered correctly. Go back and try it again." .
 			// 	"(reCAPTCHA said: " . $resp->error . ")");
 			throw new Typecho_Widget_Exception(_t('验证码不正确哦！'));
 		}
-		
-		return $comment;
+		else {return $comments;}
+		}
 	}
+        
 }
