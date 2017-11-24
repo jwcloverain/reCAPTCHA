@@ -8,7 +8,7 @@
  * @link http://geaya.com
  */
 
-require_once('lib/vendor/autoload.php');
+require_once('lib/src/autoload.php');
 
 class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
 {
