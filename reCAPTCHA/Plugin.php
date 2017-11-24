@@ -82,28 +82,8 @@ class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
 		}
 	
 		$recaptcha = new \ReCaptcha\ReCaptcha($secretKey);
-    		// static $realip;
-    		// if(isset($_SERVER)){
-        	//	if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])){
-            	//		$realip=$_SERVER['HTTP_X_FORWARDED_FOR'];
-        	//	}else if(isset($_SERVER['HTTP_CLIENT_IP'])){
-            	//		$realip=$_SERVER['HTTP_CLIENT_IP'];
-        	//	}else{
-            	//		$realip=$_SERVER['REMOTE_ADDR'];
-        	//	}
-    		// }else{
-        	//	if(getenv('HTTP_X_FORWARDED_FOR')){
-            	//		$realip=getenv('HTTP_X_FORWARDED_FOR');
-        	//	}else if(getenv('HTTP_CLIENT_IP')){
-            	//		$realip=getenv('HTTP_CLIENT_IP');
-        	//	}else{
-            	//		$realip=getenv('REMOTE_ADDR');
-        	//	}
-    		// }
-		// return $realip;
-		
 		$ip = $_SERVER['REMOTE_ADDR'];	
-		$resp = $recaptcha->verify($_POST['g-recaptcha-response'], $realip);
+		$resp = $recaptcha->verify($_POST['g-recaptcha-response'], $ip);
 
 		if (!$resp->isSuccess()) {
 			// What happens when the CAPTCHA was entered incorrectly
@@ -114,5 +94,4 @@ class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
 		else {return $comments;}
 		}
 	}
-        
 }
