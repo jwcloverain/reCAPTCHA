@@ -9,7 +9,7 @@
 ```
 reCAPTCHA_Plugin::output();
 ```
-**注意：若未配置Public Key和Private Key而先添加上述代码，文章页面会报错**
+**注意：若未配置Public Key和Private Key而在页面中先添加上述代码，该页面会报错**
 
 [1]: http://typecho.org/about
 [2]: https://www.google.com/recaptcha/
