@@ -64,11 +64,12 @@ class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
 	 */
         public static function output() {
                 $siteKey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->siteKey;
-                if (isset($siteKey)) {
+		$secretKey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->secretKey;
+                if ($siteKey != "" && $secretKey != "") {
                         echo '<script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
                                 <div class="g-recaptcha" data-sitekey=' . $siteKey . '></div>';
                 }
-                else { return; }
+		else { throw new Typecho_Widget_Exception(_t('No reCAPTCHA Keys! Please set them!')); }
         }
   
 	public static function filter($comments, $obj) {
