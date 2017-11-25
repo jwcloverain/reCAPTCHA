@@ -69,7 +69,7 @@ class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
                         echo '<script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
                                 <div class="g-recaptcha" data-sitekey=' . $siteKey . '></div>';
                 }
-		else { throw new Typecho_Widget_Exception(_t('No reCAPTCHA Keys! Please set them!')); }
+		else { throw new Typecho_Widget_Exception(_t('No reCAPTCHA Site/Secret Keys! Please set it/them!')); }
         }
   
 	public static function filter($comments, $obj) {
