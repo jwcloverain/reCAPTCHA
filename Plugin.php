@@ -62,15 +62,14 @@ class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
 	/**
 	 * 展示验证码
 	 */
-        public static function output() {
-                $siteKey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->siteKey;
+  public static function output() {
+    $siteKey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->siteKey;
 		$secretKey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->secretKey;
-                if ($siteKey != "" && $secretKey != "") {
-                        echo '<script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
-                                <div class="g-recaptcha" data-sitekey=' . $siteKey . '></div>';
-                }
-		else { throw new Typecho_Widget_Exception(_t('No reCAPTCHA Site/Secret Keys! Please set it/them!')); }
-        }
+      if ($siteKey != "" && $secretKey != "") {
+        echo '<script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
+              <div class="g-recaptcha" data-sitekey=' . $siteKey . '></div>';
+      } else { throw new Typecho_Widget_Exception(_t('No reCAPTCHA Site/Secret Keys! Please set it/them!')); }
+  }
   
 	public static function filter($comments, $obj) {
 	if (isset($_POST['g-recaptcha-response'])) {
@@ -78,7 +77,7 @@ class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
 		$secretKey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->secretKey;
 		$userObj = $obj->widget('Widget_User');
 		
-		if($userObj->hasLogin() && $userObj->pass('administrator', true)) {
+	  if($userObj->hasLogin() && $userObj->pass('administrator', true)) {
 			return $comments;
 		}
 	
@@ -86,10 +85,10 @@ class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
 		$ip = $_SERVER['REMOTE_ADDR'];	
 		$resp = $recaptcha->verify($_POST['g-recaptcha-response'], $ip);
 
-		if (!$resp->isSuccess()) {
-			throw new Typecho_Widget_Exception(_t('验证码不正确哦！'));
-		}
-		else {return $comments;}
-		}
-	}
+		if (!$resp->isSuccess()) {throw new Typecho_Widget_Exception(_t('验证码不正确哦！'));} else {return $comments;}
+		} else {
+    return $comments;
+	  }
+  }
+
 }
