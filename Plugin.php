@@ -72,15 +72,13 @@ class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
   }
   
 	public static function filter($comments, $obj) {
-	if (isset($_POST['g-recaptcha-response'])) {
+    $userObj = $obj->widget('Widget_User');
+    if($userObj->hasLogin() && $userObj->pass('administrator', true)) {
+      return $comments;
+    }
+	  elseif (isset($_POST['g-recaptcha-response'])) {
 		$siteKey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->siteKey;
 		$secretKey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->secretKey;
-		$userObj = $obj->widget('Widget_User');
-		
-	  if($userObj->hasLogin() && $userObj->pass('administrator', true)) {
-			return $comments;
-		}
-	
 		$recaptcha = new \ReCaptcha\ReCaptcha($secretKey);
 		$ip = $_SERVER['REMOTE_ADDR'];	
 		$resp = $recaptcha->verify($_POST['g-recaptcha-response'], $ip);
