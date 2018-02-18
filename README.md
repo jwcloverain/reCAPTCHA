@@ -1,4 +1,4 @@
-[typecho][1]验证码插件，使用Google的[reCAPTCHA][2]接口。
+[typecho][1]评论验证码插件，使用Google的[reCAPTCHA][2]接口。
 ======
 
 #### 使用方法：
@@ -7,7 +7,7 @@
 3. 在适当地方添加如下代码：
 
 ```
-<? php reCAPTCHA_Plugin::output(); ?>
+<?php reCAPTCHA_Plugin::output(); ?>
 ```
 **注意：若未配置Public Key和Private Key而在页面中先添加上述代码，该页面会报错**
 
