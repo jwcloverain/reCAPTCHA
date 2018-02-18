@@ -7,7 +7,7 @@
 3. 在适当地方添加如下代码：
 
 ```
-reCAPTCHA_Plugin::output();
+<? php reCAPTCHA_Plugin::output(); ?>
 ```
 **注意：若未配置Public Key和Private Key而在页面中先添加上述代码，该页面会报错**
 
