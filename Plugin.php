@@ -66,7 +66,7 @@ class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
     $siteKey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->siteKey;
 		$secretKey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->secretKey;
       if ($siteKey != "" && $secretKey != "") {
-        echo '<script src="https://recaptcha.net/recaptcha/api.js" async defer></script>
+        echo '<script src="https://recaptcha.net/recaptcha/api.js" async defer data-no-instant></script>
               <div class="g-recaptcha" data-sitekey=' . $siteKey . '></div>';
       } else { throw new Typecho_Widget_Exception(_t('No reCAPTCHA Site/Secret Keys! Please set it/them!')); }
   }
@@ -87,7 +87,7 @@ class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
 
 		if (!$resp->isSuccess()) {throw new Typecho_Widget_Exception(_t('验证码不正确哦！'));} else {return $comments;}
 		} else {
-    return $comments;
+      throw new Typecho_Widget_Exception(_t('未成功加载验证码！请科学上网！'));
 	  }
   }
 
