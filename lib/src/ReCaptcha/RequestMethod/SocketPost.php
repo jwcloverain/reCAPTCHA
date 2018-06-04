@@ -40,7 +40,7 @@ class SocketPost implements RequestMethod
      * reCAPTCHA service host.
      * @const string
      */
-    const RECAPTCHA_HOST = 'www.google.com';
+    const RECAPTCHA_HOST = 'recaptcha.net';
 
     /**
      * @const string reCAPTCHA service path
