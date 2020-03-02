@@ -1,3 +1,5 @@
+reCAPTCHAv3版插件：[这里][4]
+======
 [typecho][1]评论验证码插件，使用Google的[reCAPTCHA][2]接口。
 ======
 
@@ -14,3 +16,4 @@
 [1]: http://typecho.org/about
 [2]: https://www.google.com/recaptcha/
 [3]: https://www.google.com/recaptcha/admin/create
+[4]: https://github.com/D-Bood/reCAPTCHAv3
