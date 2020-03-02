@@ -1,4 +1,5 @@
-reCAPTCHAv3版插件：[https://github.com/D-Bood/reCAPTCHAv3][4]
+reCAPTCHAv3版插件：[这里][4]
+======
 [typecho][1]评论验证码插件，使用Google的[reCAPTCHA][2]接口。
 ======
 
