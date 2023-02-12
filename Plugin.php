@@ -53,8 +53,10 @@ class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
 		$siteKeyDescription = _t("To use reCAPTCHA you must get an API key from <a href='https://www.google.com/recaptcha/admin/create'>https://www.google.com/recaptcha/admin/create</a>");
 		$siteKey = new Typecho_Widget_Helper_Form_Element_Text('siteKey', NULL, '', _t('Site Key for reCAPTCHAv2:'), $siteKeyDescription);
 		$secretKey = new Typecho_Widget_Helper_Form_Element_Text('secretKey', NULL, '', _t('Serect Key for reCAPTCHAv2:'), _t(''));
+		$widget_size = new Typecho_Widget_Helper_Form_Element_Text('widget_size', NULL, '', _t('样式'), _t('默认填写normal，紧凑填compact'));
 		$form->addInput($siteKey);
 		$form->addInput($secretKey);
+		$form->addInput($widget_size);
 	}
 
 	/**
@@ -65,7 +67,7 @@ class reCAPTCHA_Plugin implements Typecho_Plugin_Interface
 		$secretKey = Typecho_Widget::widget('Widget_Options')->plugin('reCAPTCHA')->secretKey;
       		if ($siteKey != "" && $secretKey != "") {
         		echo '<script src="https://recaptcha.net/recaptcha/api.js" async defer data-no-instant></script>
-                              <div class="g-recaptcha" data-sitekey=' . $siteKey . '></div>';
+                              <div class="g-recaptcha" data-sitekey=' . $siteKey . ' data-size=' . $widget_size . '></div>';
       		} else {
 			throw new Typecho_Widget_Exception(_t('No reCAPTCHA Site/Secret Keys! Please set it/them!'));
 		}
